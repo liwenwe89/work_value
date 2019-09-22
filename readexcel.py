@@ -17,7 +17,7 @@ rows = sheet1.row_values(2)#获取行内容
 cols = sheet1.col_values(3)#获取列内容
 print(rows)
 print(cols)
-input('Press Enter to exit...')
+input('Press Enter to exit...ssssss')
 print(sheet1.cell(1,0).value)#获取表格里的内容，三种方式
 print(sheet1.cell_value(1,0))
 print(sheet1.row(1)[0].value)
