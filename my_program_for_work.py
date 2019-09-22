@@ -11,7 +11,7 @@ if __name__ == '__main__':
             input_str = input("请输入\n")
             print("输入了 %s" %(input_str))
     except:
-        print("错误.test")
+        print("错误")
     else:
         print ("内容写入文件成功")
     
