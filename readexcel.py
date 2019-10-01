@@ -12,7 +12,7 @@ sheet1 = wb.sheet_by_index(0)#通过索引获取表格
 print(dir(xlrd))
 print(sheet1)
 print(sheet1.name,sheet1.nrows,sheet1.ncols)
-
+input("wait.......")
 rows = sheet1.row_values(2)#获取行内容
 cols = sheet1.col_values(3)#获取列内容
 print(rows)
