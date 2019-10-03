@@ -7,17 +7,17 @@ import datetime
 import time
 
 
-'''
+
 path = easygui.fileopenbox()
 print(path)
-
+'''
 while(input_str_break != "100"):
     input_str_break = input("打开失败\n")
     print("输入了 %s" %(input_str_break))
 '''
 
 # excle 路径
-path=r"D:\gitRepo\work_value\temp2.xlsx"
+#path=r"D:\gitRepo\work_value\temp2.xlsx"
 
 #sheet名字
 sheet_name_str = "2019年"
