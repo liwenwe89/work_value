@@ -64,7 +64,7 @@ def open_worksheet(path):
         
         if(r"偏差" in list_val[0][i] ):
             deviation_col = i  
-        
+
         if(r"初始计划" in list_val[0][i] ):
             initplan_col = i # 从0开始 所以减1 
         if(r"状态" in list_val[0][i]):
@@ -172,18 +172,40 @@ def write_docx(read_excel_result,productline,file_docx,pro_num):
 
 def write_excel_firstrow(worksheet):#第一行
 
-    dict_col ={"产品线":0,"项目经理":1,"项目名称":2,"核心需求":3,"本周进展":4,"下周计划":5,"风险":6,"初始计划":7,"调整后计划":8}
+    dict_col ={"产品线":0,"项目经理":1,"项目名称":2,"核心需求":3,"本周进展":4,"下周计划":5,"风险":6,"初始计划":7,"调整后计划":8,"进度偏差":9}
 
-    worksheet.write(0,dict_col["产品线"],"产品线")
-    worksheet.write(0,dict_col["项目经理"],"项目经理")
-    worksheet.write(0,dict_col["项目名称"],"项目名称")
-    worksheet.write(0,dict_col["本周进展"],"本周进展")
-    worksheet.write(0,dict_col["下周计划"],"下周计划")
-    worksheet.write(0,dict_col["风险"],"风险")
-    worksheet.write(0,dict_col["初始计划"],"初始计划")
-    worksheet.write(0,dict_col["调整后计划"],"调整后计划")
-    worksheet.write(0,dict_col["核心需求"],"核心需求")
+    worksheet.row(0).set_style(style_headtype[1])
     
+    worksheet.write(0,dict_col["产品线"],"产品线",style_headtype[0])
+    worksheet.col(dict_col["产品线"]).width = 10*256  ## 256为衡量单位，10表示10个字符宽度
+
+    worksheet.write(0,dict_col["项目经理"],"项目经理",style_headtype[0])
+    worksheet.col(dict_col["项目经理"]).width = 10*256
+
+    worksheet.write(0,dict_col["项目名称"],"项目名称",style_headtype[0])
+    worksheet.col(dict_col["项目名称"]).width = 21*256 
+
+    worksheet.write(0,dict_col["本周进展"],"本周进展",style_headtype[0])
+    worksheet.col(dict_col["本周进展"]).width = 40*256 
+
+    worksheet.write(0,dict_col["下周计划"],"下周计划",style_headtype[0])
+    worksheet.col(dict_col["下周计划"]).width = 40*256  
+
+    worksheet.write(0,dict_col["风险"],"风险",style_headtype[0])
+    worksheet.col(dict_col["风险"]).width = 40*256 
+
+    worksheet.write(0,dict_col["初始计划"],"初始计划",style_headtype[0])
+    worksheet.col(dict_col["初始计划"]).width = 30*256 
+
+    worksheet.write(0,dict_col["调整后计划"],"调整后计划",style_headtype[0])
+    worksheet.col(dict_col["调整后计划"]).width = 30*256 
+
+    worksheet.write(0,dict_col["核心需求"],"核心需求",style_headtype[0])
+    worksheet.col(dict_col["核心需求"]).width = 35*256  
+
+    worksheet.write(0,dict_col["进度偏差"],"进度偏差说明",style_headtype[0])
+    worksheet.col(dict_col["进度偏差"]).width = 40*256  
+
     return dict_col
 
 def write_excel(read_excel_result,pro_num,dict_col_new,worksheet):
@@ -194,36 +216,121 @@ def write_excel(read_excel_result,pro_num,dict_col_new,worksheet):
 
     for i in range(0,len(list_val)): 
         if(list_val[i][dict_col["状态"]] == "开发中"):
-            
-            worksheet.write(pro_rep_num,dict_col_new["产品线"],list_val[i][dict_col["产品线"]])
-            worksheet.write(pro_rep_num,dict_col_new["项目经理"],list_val[i][dict_col["项目经理"]])
-            worksheet.write(pro_rep_num,dict_col_new["项目名称"],list_val[i][dict_col["项目名称"]])
-            worksheet.write(pro_rep_num,dict_col_new["核心需求"],list_val[i][dict_col["核心需求"]])
-            worksheet.write(pro_rep_num,dict_col_new["本周进展"],list_val[i][dict_col["本周进展"]])
-            worksheet.write(pro_rep_num,dict_col_new["下周计划"],list_val[i][dict_col["下周计划"]])
-            worksheet.write(pro_rep_num,dict_col_new["风险"],list_val[i][dict_col["风险"]])
-            worksheet.write(pro_rep_num,dict_col_new["初始计划"],list_val[i][dict_col["初始计划"]])
-            worksheet.write(pro_rep_num,dict_col_new["调整后计划"],list_val[i][dict_col["调整后计划"]])
+            worksheet.row(pro_rep_num).set_style(style_bodytype[1])
+            worksheet.write(pro_rep_num,dict_col_new["产品线"],list_val[i][dict_col["产品线"]],style_bodytype[0])
+            worksheet.write(pro_rep_num,dict_col_new["项目经理"],list_val[i][dict_col["项目经理"]],style_bodytype[0])
+            worksheet.write(pro_rep_num,dict_col_new["项目名称"],list_val[i][dict_col["项目名称"]],style_bodytype[0])
+            worksheet.write(pro_rep_num,dict_col_new["核心需求"],list_val[i][dict_col["核心需求"]],style_bodytype[0])
+            worksheet.write(pro_rep_num,dict_col_new["本周进展"],list_val[i][dict_col["本周进展"]],style_bodytype[0])
+            worksheet.write(pro_rep_num,dict_col_new["下周计划"],list_val[i][dict_col["下周计划"]],style_bodytype[0])
+            worksheet.write(pro_rep_num,dict_col_new["风险"],list_val[i][dict_col["风险"]],style_bodytype[0])
+            worksheet.write(pro_rep_num,dict_col_new["初始计划"],list_val[i][dict_col["初始计划"]],style_bodytype[0])
+            worksheet.write(pro_rep_num,dict_col_new["调整后计划"],list_val[i][dict_col["调整后计划"]],style_bodytype[0])
+            worksheet.write(pro_rep_num,dict_col_new["进度偏差"],list_val[i][dict_col["进度偏差"]],style_bodytype[0])
             pro_rep_num += 1 
     return pro_rep_num
+
+def write_outsea_excel(read_excel_result,pro_num,dict_col_new,worksheet):
+    dict_col =  read_excel_result[0]
+    list_val = read_excel_result[1]
+    
+    pro_rep_num = pro_num 
+
+    for i in range(0,len(list_val)): 
+        if(list_val[i][dict_col["状态"]] == "开发中" and ("海外" in list_val[i][dict_col["产品线"]])):
+            worksheet.row(pro_rep_num).set_style(style_bodytype[1])
+            worksheet.write(pro_rep_num,dict_col_new["产品线"],list_val[i][dict_col["产品线"]],style_bodytype[0])
+            worksheet.write(pro_rep_num,dict_col_new["项目经理"],list_val[i][dict_col["项目经理"]],style_bodytype[0])
+            worksheet.write(pro_rep_num,dict_col_new["项目名称"],list_val[i][dict_col["项目名称"]],style_bodytype[0])
+            worksheet.write(pro_rep_num,dict_col_new["核心需求"],list_val[i][dict_col["核心需求"]],style_bodytype[0])
+            worksheet.write(pro_rep_num,dict_col_new["本周进展"],list_val[i][dict_col["本周进展"]],style_bodytype[0])
+            worksheet.write(pro_rep_num,dict_col_new["下周计划"],list_val[i][dict_col["下周计划"]],style_bodytype[0])
+            worksheet.write(pro_rep_num,dict_col_new["风险"],list_val[i][dict_col["风险"]],style_bodytype[0])
+            worksheet.write(pro_rep_num,dict_col_new["初始计划"],list_val[i][dict_col["初始计划"]],style_bodytype[0])
+            worksheet.write(pro_rep_num,dict_col_new["调整后计划"],list_val[i][dict_col["调整后计划"]],style_bodytype[0])
+            worksheet.write(pro_rep_num,dict_col_new["进度偏差"],list_val[i][dict_col["进度偏差"]],style_bodytype[0])
+            pro_rep_num += 1 
+    return pro_rep_num
+
+def setExcelStyle():
+    
+    #设置头一行格式
+
+    #设置单元格的对齐方式
+    alignment=xlwt.Alignment()
+    alignment.horz=xlwt.Alignment.HORZ_LEFT
+    alignment.vert=xlwt.Alignment.VERT_CENTER
+
+    #设置边框
+    borders=xlwt.Borders()
+    borders.left=1
+    borders.right=1
+    borders.top=1
+    borders.bottom=1
+
+    #设置单元格的对齐方式
+    #alignment1=xlwt.Alignment()
+    #alignment1.horz=xlwt.Alignment.HORZ_LEFT
+    #alignment1.vert=xlwt.Alignment.VERT_CENTER
+
+    #font1的格式为表头 加粗 宋体 16号
+    font1 = xlwt.Font()
+    font1.name = '微软雅黑'
+    font1.bold = True
+    font1.height = 11*20 #字体大小为十六进制转为十进制 除以20 0x00104=320
+
+    
+    style_head = xlwt.XFStyle() # create the style
+    style_head.font = font1
+    style_head.alignment = alignment
+    style_head.borders = borders
+
+    #font2为  11号
+    font2 = xlwt.Font()
+    font2.name = '微软雅黑'
+    font2.bold = False
+    font2.height = 10*20 # 字体大小为十六进制转为十进制 除以20 0x00DC=220
+    style_body = xlwt.XFStyle() # create the style
+    style_body.font = font2
+    style_body.alignment=alignment
+    style_body.alignment.wrap = 1
+    style_body.borders=borders
+
+
+ 
+    tall_style_head = xlwt.easyxf('font:height 460;')  # *20   /20 才是像素高度，
+    tall_style_body = xlwt.easyxf('font:height 3000;')  # 72pt
+    
+    style_headtype = [style_head,tall_style_head]
+    style_bodytype = [style_body,tall_style_body]
+
+
+    return style_headtype,style_bodytype
+
+
 
 if __name__ == '__main__':
 
     #path1 = easygui.fileopenbox()
-    path1 = r"D:\gitRepo\work_value\智能组项目进展汇总 - 2019.xlsx"
+  
+    #path1 = r"D:\gitRepo\work_value\智能组项目进展汇总 - 2019.xlsx"
+    path1 = r"D:\基线\项目管理\项目进度\版本基线进度\智能组\智能组项目进展汇总 - 2019.xlsx"
     read_excel_result1 = open_worksheet(path1)
     
     time.sleep(1)
     
     #path2 = easygui.fileopenbox()
-    path2 = r"D:\gitRepo\work_value\海外组项目进展汇总.xlsx"
     
+    #path2 = r"D:\gitRepo\work_value\海外组项目进展汇总.xlsx"
+    path2 = r"D:\基线\项目管理\项目进度\版本基线进度\海外组\海外组项目进展汇总.xlsx"
     read_excel_result2 = open_worksheet(path2)
     
     time.sleep(1)
 
-    path3 = r"D:\gitRepo\work_value\通用组项目进展汇总 - 2019.xlsx"
     
+    #path3 = r"D:\gitRepo\work_value\通用组项目进展汇总 - 2019.xlsx"
+    path3 = r"D:\基线\项目管理\项目进度\版本基线进度\通用组\通用组项目进展汇总 - 2019.xlsx"
+   
    # path3 = easygui.fileopenbox()
     read_excel_result3 = open_worksheet(path3)
     
@@ -238,12 +345,7 @@ if __name__ == '__main__':
     docx_style.element.rPr.rFonts.set(qn('w:eastAsia'), '微软雅黑')
     pro_num = 0
 
-    write_product_head_docx("行业",file_docx)
-    pro_num = 0
-    pro_num = write_docx(read_excel_result1,"行业",file_docx,pro_num)
-    pro_num = write_docx(read_excel_result2,"行业",file_docx,pro_num)
-    pro_num = write_docx(read_excel_result3,"行业",file_docx,pro_num)
-    
+   
 
 
     write_product_head_docx("渠道",file_docx)
@@ -251,6 +353,12 @@ if __name__ == '__main__':
     pro_num = write_docx(read_excel_result1,"渠道",file_docx,pro_num)
     pro_num = write_docx(read_excel_result2,"渠道",file_docx,pro_num)
     pro_num = write_docx(read_excel_result3,"渠道",file_docx,pro_num)
+    
+    write_product_head_docx("行业",file_docx)
+    pro_num = 0
+    pro_num = write_docx(read_excel_result1,"行业",file_docx,pro_num)
+    pro_num = write_docx(read_excel_result2,"行业",file_docx,pro_num)
+    pro_num = write_docx(read_excel_result3,"行业",file_docx,pro_num)
     
     write_product_head_docx("专用",file_docx)
     pro_num = 0
@@ -266,21 +374,41 @@ if __name__ == '__main__':
 
     date_to = time.localtime()
     week_to = time.strftime("%U",date_to)
-    file_docx.save("本周重点问题汇总" +"_W"+ week_to +".docx")
+   
     workbook = xlwt.Workbook(encoding = 'utf-8')
     # 创建一个worksheet
     worksheet = workbook.add_sheet("汇总",cell_overwrite_ok=True)
-    style = xlwt.XFStyle()
 
-    #单元格格式
-    pattern = xlwt.Pattern()
-    
+    style_headtype,style_bodytype = setExcelStyle() # 设置全局变量,直接不做数字传递
+
+
     dict_newcol = write_excel_firstrow(worksheet)
+
     pro_num = 1
+
     pro_num = write_excel(read_excel_result1,pro_num,dict_newcol,worksheet)
     pro_num = write_excel(read_excel_result2,pro_num,dict_newcol,worksheet)
     pro_num = write_excel(read_excel_result3,pro_num,dict_newcol,worksheet)
     
-    workbook.save("汇总.xls")
-    
-    input("已经完成\n"+"本周重点问题汇总" +"_W"+ week_to +".docx")
+
+    workbook_outsea = xlwt.Workbook(encoding = 'utf-8')
+    # 创建一个worksheet
+    worksheet_outsea = workbook_outsea.add_sheet("汇总",cell_overwrite_ok=True)
+
+    dict_newcol = write_excel_firstrow(worksheet_outsea)
+
+    pro_num = 1
+
+    pro_num = write_outsea_excel(read_excel_result1,pro_num,dict_newcol,worksheet_outsea)
+    pro_num = write_outsea_excel(read_excel_result2,pro_num,dict_newcol,worksheet_outsea)
+    pro_num = write_outsea_excel(read_excel_result3,pro_num,dict_newcol,worksheet_outsea)
+
+    str_doc = "本周重点项目汇总" +"_W"+ week_to +".docx"
+    str_exc = "本周项目进展汇总" +"_W"+ week_to+".xls"
+    str_outsea = "本周海外项目进展汇总" +"_W"+ week_to+".xls"
+
+    file_docx.save(str_doc)
+    workbook.save(str_exc)
+    workbook_outsea.save(str_outsea)
+
+    input("已经完成\n"+str_doc+"\n"+str_exc+"\n"+str_outsea)
