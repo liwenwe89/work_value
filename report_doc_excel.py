@@ -9,15 +9,16 @@ import time
 
 #应该不会超过99所以简单一些
 def NumberToChinese(num):
-    num_dict={"1":u"一","2":u"二","3":u"三","4":u"四","5":u"五","6":u"六","7":u"七","8":u"八","9":u"九","10":u"十"}
+    num_dict={0:"","1":u"一","2":u"二","3":u"三","4":u"四","5":u"五","6":u"六","7":u"七","8":u"八","9":u"九","10":u"十"}
  
     zh_num_str =""
+    
     if(num>=10 and num < 20):
         zh_num_str = "十" + num_dict[str(num%10)]
     elif (num<10):
         zh_num_str =  num_dict[str(num)]
     else:
-        zh_num_str = num_dict[str(int(num/10))]+ num_dict[str(num%10)]
+        zh_num_str = num_dict[str(int(num/10))]+"十"+num_dict[str(num%10)]
     return zh_num_str
 
 
