@@ -23,13 +23,13 @@ while(input_str_break != "100"):
 sheet_name_str = "2019年"
 
 #计算时间，开始年月日
-startdate_str = "2019-07-01"
+startdate_str = "2019-10-01"
 startdate_time = time.strptime(startdate_str,"%Y-%m-%d")
 startdate_datetime = datetime.datetime(startdate_time[0],startdate_time[1],startdate_time[2])
 start_days = (startdate_datetime- datetime.datetime(1899,12,31)).days+1  # 差值 比excle计算出来少1 excel是第几天，这里计算是差几天，所以要从19891231开始计算并最后加上1
  
 
-enddate_str ="2019-09-30"
+enddate_str ="2019-12-30"
 enddate_time= time.strptime(enddate_str,"%Y-%m-%d")
 enddate_datetime =datetime.datetime(enddate_time[0],enddate_time[1],enddate_time[2])
 enddate_days =( enddate_datetime- datetime.datetime(1899,12,31)).days+1  # 差值 比excle计算出来少1 excel是第几天，这里计算是差几天，所以要从19891231开始计算并最后加上1
