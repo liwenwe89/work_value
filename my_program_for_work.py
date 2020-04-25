@@ -23,13 +23,13 @@ while(input_str_break != "100"):
 sheet_name_str = "2019年"
 
 #计算时间，开始年月日
-startdate_str = "2019-10-01"
+startdate_str = "2019-07-01"
 startdate_time = time.strptime(startdate_str,"%Y-%m-%d")
 startdate_datetime = datetime.datetime(startdate_time[0],startdate_time[1],startdate_time[2])
 start_days = (startdate_datetime- datetime.datetime(1899,12,31)).days+1  # 差值 比excle计算出来少1 excel是第几天，这里计算是差几天，所以要从19891231开始计算并最后加上1
  
 
-enddate_str ="2019-12-30"
+enddate_str ="2019-09-30"
 enddate_time= time.strptime(enddate_str,"%Y-%m-%d")
 enddate_datetime =datetime.datetime(enddate_time[0],enddate_time[1],enddate_time[2])
 enddate_days =( enddate_datetime- datetime.datetime(1899,12,31)).days+1  # 差值 比excle计算出来少1 excel是第几天，这里计算是差几天，所以要从19891231开始计算并最后加上1
@@ -87,20 +87,41 @@ for i in range(0,sheet1_ncols):
         pro_quality_clo = i 
     if("状态" in list_val[1][i]):
         pro_status_clo = i 
-
-print(name_col , #x姓名
+    if("版本号" in list_val[1][i]):
+        pro_version_clo  = i 
+    if("项目主题" in list_val[1][i]):
+        pro_name_clo = i
+print(
+pro_version_clo,
+pro_name_clo,
+name_col , #x姓名
 pro_start_clo , #开始时间
 pro_preprod_clo,#样机时间点
 pro_end_clo , #结束时间
 pro_end_rea_clo , #实际结束时间
 pro_hard_index_clo , #难度系数
 pro_quality_clo , #质量系数
-pro_status_clo ,) #状态栏)
+pro_status_clo) #状态栏)
 
 name_list =[]
 value_list=[]
+
+# 提前建立
+workbook = xlwt.Workbook(encoding = 'utf-8')
+# 创建一个worksheet
+worksheet = workbook.add_sheet("贡献值",cell_overwrite_ok=True)
+worksheet_2 = workbook.add_sheet("原始数据",cell_overwrite_ok=True)
+worksheet_2.write(1,1,"版本号")
+worksheet_2.write(1,2,"版本主题")
+worksheet_2.write(1,3,"项目经理")
+worksheet_2.write(1,4,"季度工作周期")
+worksheet_2.write(1,5,"项目难度")
+worksheet_2.write(1,6,"计算质量系数")
+worksheet_2.write(1,7,"贡献值")
+
 for i in range(100):
     value_list.append(0)
+
 for i in range(2,sheet1_nrows):
     
      # 判断时间 当前开始和最后的时间
@@ -162,8 +183,6 @@ for i in range(2,sheet1_nrows):
         （3） 如果最大的结束时间小于开始时间，则赋值0 ，0表示不做任何处理
         （4） 如果结束时间大于季度末时间，则计算的时候本季度末作为时间。
     '''
-
-
     
     # 形成名字列表
     
@@ -179,6 +198,7 @@ for i in range(2,sheet1_nrows):
     else :
         quality_index=excel_table_1.cell(i,pro_quality_clo).value
 
+
     if(enddate_pro != 0 and startdate_pro!=0):#本季度的不为0 ，则进行计算
     # 首先要计算当前获得的所有值，本季度的结束时间，减去开始时间，
         temp1  =  (enddate_pro-startdate_pro_real)*hard_index*quality_index
@@ -188,7 +208,14 @@ for i in range(2,sheet1_nrows):
         print("%d val_stage %f" %(i,value_stage))
     else:
         value_stage = 0
-    
+    worksheet_2.write(i,1,excel_table_1.cell(i,pro_version_clo))
+    worksheet_2.write(1,2,excel_table_1.cell(i,pro_name_clo))
+    worksheet_2.write(1,3,excel_table_1.cell(i,name_col))
+    worksheet_2.write(1,4,startdate_pro-enddate_pro)
+    worksheet_2.write(1,5,hard_index)
+    worksheet_2.write(1,6,quality_index)
+    worksheet_2.write(1,7,value_stage)
+
     #减去此前获得的值
 
     #以上计算完成，开始进行统计导入数据
@@ -202,10 +229,8 @@ for i in range(2,sheet1_nrows):
     if((excel_table_1.cell(i,name_col).value in name_list) == True):
         temp_j = name_list.index(excel_table_1.cell(i,name_col).value)
         value_list[temp_j] += value_stage
+    
 
-workbook = xlwt.Workbook(encoding = 'utf-8')
-# 创建一个worksheet
-worksheet = workbook.add_sheet("贡献值",cell_overwrite_ok=True)
 
 for i in range(len(name_list)):    
     print(name_list[i]+": %f" %(value_list[i]))
@@ -222,5 +247,3 @@ worksheet.write(len(name_list),2,startdate_datetime,dateStyle)
 worksheet.write(len(name_list)+1,2,enddate_datetime,dateStyle)
 
 workbook.save("贡献值.xls")
-
-
